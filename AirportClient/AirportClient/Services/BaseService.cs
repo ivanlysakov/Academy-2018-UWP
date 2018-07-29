@@ -19,54 +19,60 @@ namespace AirportClient.Services
                
         public List<TEntity> Load()
         {
-            using (var client = new HttpClient())
+
+            try
             {
-                var content = client.GetStringAsync($"{remoteURL}").Result;
-                return JsonConvert.DeserializeObject<List<TEntity>>(content);
-
-            }
-
-        }
-
-
-        public async Task<ObservableCollection<TEntity>> LoadPilots2()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-
-
-                var Response = await client.GetAsync(new Uri(remoteURL)).ConfigureAwait(false); ;
-                using (var responseStream = await Response.Content.ReadAsStreamAsync())
+                using (var client = new HttpClient())
                 {
-                    var List = new DataContractJsonSerializer(typeof(List<TEntity>));
-                    return new ObservableCollection<TEntity>((IEnumerable<TEntity>)List.ReadObject(responseStream));
+                    var content = client.GetStringAsync($"{remoteURL}").Result;
+                    return JsonConvert.DeserializeObject<List<TEntity>>(content);
+
                 }
             }
+            catch (Exception)
+            {
+
+                return new List<TEntity>();
+              
+            }
+          
+
         }
+
+
+       
 
 
 
 
         public async Task Create(TEntity entity)
         {
-
-            using (var client = new HttpClient())
+            try
             {
-                using (var memStream = new MemoryStream())
+                using (var client = new HttpClient())
                 {
-                    var data = new DataContractJsonSerializer(typeof(TEntity));
-                    data.WriteObject(memStream, entity);
-                    memStream.Position = 0;
-                    var contentToPost = new StreamContent(memStream);
-                    contentToPost.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-                    var response = await client.PostAsync(new Uri(remoteURL), contentToPost);
-                    var dataReceived = response.EnsureSuccessStatusCode();
-                    var dRec = new DataContractJsonSerializer(typeof(TEntity));
-                    var str = await dataReceived.Content.ReadAsStreamAsync();
-                    var RecData = dRec.ReadObject(str) as TEntity;
+                    using (var memStream = new MemoryStream())
+                    {
+                        var data = new DataContractJsonSerializer(typeof(TEntity));
+                        data.WriteObject(memStream, entity);
+                        memStream.Position = 0;
+                        var contentToPost = new StreamContent(memStream);
+                        contentToPost.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                        var response = await client.PostAsync(new Uri(remoteURL), contentToPost);
+                        var dataReceived = response.EnsureSuccessStatusCode();
+                        var dRec = new DataContractJsonSerializer(typeof(TEntity));
+                        var str = await dataReceived.Content.ReadAsStreamAsync();
+                        var RecData = dRec.ReadObject(str) as TEntity;
 
+                    }
                 }
             }
+            catch (Exception e)
+            {
+
+                
+            }
+          
 
         }
 
@@ -93,7 +99,7 @@ namespace AirportClient.Services
             catch (Exception)
             {
 
-
+                
             }
 
 

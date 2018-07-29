@@ -5,10 +5,123 @@
     xmlns:local="using:AirportClient.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:AirportClient.ViewModels"
+    xmlns:convertor="using:AirportClient.Convetors"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
+        <vm:DepartureViewModel x:Key="vmDs"></vm:DepartureViewModel>
+        <convertor:DateConverter x:Name="DateToStringConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DataContext="{Binding Source={StaticResource vmDs}}"
+         x:Name="MainGrid" Padding="10,10,10,10" Margin="10,10,10,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+
+        <ListView  ItemsSource="{Binding Collection}" SelectedItem="{Binding Source={StaticResource vmDs},Path=SelectedEntity,Mode=TwoWay}" IsItemClickEnabled="True" ItemClick="SelectItem" Margin="0,0,21,9">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                       
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="ID" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="1" Text="FlightNumber" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="2" Text="Time" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="3" Text="Crew" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="4" Text="Airplane" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                       
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate >
+                <DataTemplate x:Name="TableDataTemplate" x:DataType="local:DeparturesView">
+                    <Grid Height="48">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                           
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{Binding Id }" />
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding FlightNumber}"/>
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Time, Converter={StaticResource DateToStringConverter}}"/>
+                        <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding Crew.CrewNumber}"/>
+                        <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Airplane.Name}"/>
+                        
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+        <Grid x:Name="detailGrid" Visibility="Collapsed" Margin="24,109,45,-270"
+            DataContext="{Binding Path=Entity,Mode=TwoWay}" Grid.Column="1" RenderTransformOrigin="0.513,0.513" VerticalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*"/>
+               
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="191*"/>
+                <ColumnDefinition Width="490*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock TextWrapping="Wrap" Text="Departure Id" FontFamily="Segor UI" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Height="22" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="FlightNumber" FontFamily="Segoe UI" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Height="24" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" FontFamily="Segoe UI" FontSize="18" Text="Time" VerticalAlignment="Center" HorizontalAlignment="Left" Height="24" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="3" TextWrapping="Wrap" Text="Crew" FontFamily="Segoe UI" FontSize="18"  VerticalAlignment="Center" HorizontalAlignment="Left" Height="24" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="4" TextWrapping="Wrap" Text="Airplane" FontFamily="Segoe UI" FontSize="18"  VerticalAlignment="Center" HorizontalAlignment="Left" Height="24" Margin="0,0,0,0"/>
+          
+
+            <TextBox x:Name="txtid" Grid.Column="1" TextWrapping="Wrap"
+                FontSize="14" IsEnabled="False" Text="{Binding  Source={StaticResource vmDs},Path=EntityId}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtname" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
+                FontSize="14" Text="{Binding FlightNumber,Mode=TwoWay}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtcrewid" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"
+                 FontSize="14" Text="{Binding Time,Mode=TwoWay, Converter={StaticResource DateToStringConverter}}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
+            <TextBox x:Name="txttype" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" Height="32"
+                FontSize="14" Text="{Binding Crew.Id,Mode=TwoWay}" Width="200" HorizontalAlignment="Left"  VerticalAlignment="Center" />
+            <TextBox x:Name="txtbirthday" Grid.Column="1" Grid.Row="4" TextWrapping="Wrap"
+                FontSize="14" Text="{Binding Airplane.Id,Mode=TwoWay}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
+           
+        </Grid>
+
+
+
+        <StackPanel   HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Orientation="Horizontal" Margin="10" Grid.Column="1" Width="400">
+            <Button Name="btnnew" Content="New" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100" Click="NewForm"
+   FontSize="18" Command="{Binding Path=NewEntity}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btnadd" Content="Add" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100"
+   FontSize="18" Command="{Binding Path=AddEntity}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btnupdate" Content="Update" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100"
+   FontSize="18" Command="{Binding UpdateEntity}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btndelete" Content="Delete" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100"
+   FontSize="18" Command="{Binding DeleteEntity}" CommandParameter="{Binding Entity}"/>
+        </StackPanel>
 
     </Grid>
 </Page>

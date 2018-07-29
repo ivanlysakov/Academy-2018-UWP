@@ -9,74 +9,116 @@
     xmlns:converter="using:AirportClient.Convetors"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    
     <Page.Resources>
         <vm:AircrewViewModel x:Key="vmDs"></vm:AircrewViewModel>
-
         <converter:DateConverter x:Name="DateToStringConverter"/>
-        <DataTemplate x:Key="Template">
-            <StackPanel Orientation="Horizontal" Width="600">
-                <TextBlock Text="{Binding Id }" Width="100"></TextBlock>
-                <TextBlock Text="{Binding CrewNumber}" Width="100"></TextBlock>
-                <TextBlock Text="{Binding Pilot.FirstName}" Width="100"></TextBlock>
-            </StackPanel>
-        </DataTemplate>
     </Page.Resources>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DataContext="{Binding Source={StaticResource vmDs}}"
-         x:Name="MainGrid" Margin="32,36,30,31" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+         x:Name="MainGrid" Padding="10,10,10,10" Margin="10,10,10,10">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="383*"/>
-            <ColumnDefinition Width="546*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="464*"/>
-            <RowDefinition Height="549*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="detailGrid" Visibility="Visible" Margin="0,114,0,0"
-            DataContext="{Binding Path=Entity,Mode=TwoWay}" Grid.RowSpan="2" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Height="437" Width="681">
+
+
+        <ListView  ItemsSource="{Binding Collection}" SelectedItem="{Binding Source={StaticResource vmDs},Path=SelectedEntity,Mode=TwoWay}" IsItemClickEnabled="True" ItemClick="SelectItem" Margin="0,0,21,9">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+
+
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="ID" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="1" Text="CrewNumber" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="2" Text="Pilot" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="3" Text="Hostesses (count)" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="4" Text="Departure" Style="{ThemeResource CaptionTextBlockStyle}"/>
+
+
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate >
+                <DataTemplate x:Name="TableDataTemplate">
+                    <Grid Height="48">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+
+
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{Binding Id }" />
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding CrewNumber}"/>
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Pilot.FullName}"/>
+                        <TextBlock Grid.Column="3" VerticalAlignment="Center" Text="{Binding Hostesses.Count}"/>
+                        <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding DepartureID}"/>
+                
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+
+        <Grid x:Name="detailGrid" Visibility="Collapsed" Margin="24,109,45,-270"
+            DataContext="{Binding Path=Entity,Mode=TwoWay}" Grid.Column="1" RenderTransformOrigin="0.513,0.513" VerticalAlignment="Stretch" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="74*"/>
-                <RowDefinition Height="72*"/>
-                <RowDefinition Height="71*"/>
-                <RowDefinition Height="69*"/>
-                <RowDefinition Height="70*"/>
-                <RowDefinition Height="67*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*"/>
 
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="191*"/>
+                <ColumnDefinition Width="490*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock TextWrapping="Wrap" Text="Crew Id" FontFamily="Segor UI" FontSize="30"/>
-            <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Number" FontFamily="Segoe UI" FontSize="30"/>
-            <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="PilotName" FontFamily="Segoe UI" FontSize="30" />
-            
+            <TextBlock TextWrapping="Wrap" Text="Flight Id" FontFamily="Segor UI" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Height="22" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Crew" FontFamily="Segoe UI" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" Height="24" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="Pilot" FontFamily="Segoe UI" FontSize="18"  VerticalAlignment="Center" HorizontalAlignment="Left" Height="24" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="3" TextWrapping="Wrap" Text="Departure" FontFamily="Segoe UI" FontSize="18"  VerticalAlignment="Center" HorizontalAlignment="Left" Height="24" Margin="0,0,0,0"/>
 
-            <TextBox x:Name="txtid" Grid.Column="1" TextWrapping="Wrap" Height="55"
-                FontSize="30" IsEnabled="False" Text="{Binding  Source={StaticResource vmDs},Path=EntityId}" Width="300"/>
-            <TextBox x:Name="txtnumber" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Height="55"
-                FontSize="30" Text="{Binding CrewNumber,Mode=TwoWay}" Width="300"/>
-            <TextBox x:Name="txtname" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Height="55"
-                FontSize="30" Text="{Binding Pilot.FirstName,Mode=TwoWay}" Width="300" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"/>
-            </Grid>
+            <TextBox x:Name="txtid" Grid.Column="1" TextWrapping="Wrap"
+                FontSize="14" IsEnabled="False" Text="{Binding  Source={StaticResource vmDs},Path=EntityId}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtname" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
+                FontSize="14" Text="{Binding CrewNumber,Mode=TwoWay}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtlname" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"
+                FontSize="14" Text="{Binding Pilot.Id,Mode=TwoWay}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtdep" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap"
+                FontSize="14" Text="{Binding DepartureID,Mode=TwoWay}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
 
-        <ListView x:Name="lstentities" Grid.Column="0"
-   Height="888" Margin="49,93,38,0" VerticalAlignment="Top" IsItemClickEnabled="True" ItemClick="SelectItem" 
-   ItemsSource="{Binding Collection}"
-   SelectedItem="{Binding Source={StaticResource vmDs},Path=SelectedEntity,Mode=TwoWay}"
-   ItemTemplate="{StaticResource Template}" Grid.RowSpan="2"/>
+        </Grid>
 
-        <StackPanel   HorizontalAlignment="Right" Height="96" VerticalAlignment="Top" Width="681" Orientation="Horizontal" Margin="0,0,0,0" Grid.Column="1">
-            <Button Name="btnnew" Content="New" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168" Click="NewForm"
-   FontSize="30" Command="{Binding Path=NewPilot}" CommandParameter="{Binding Entity}"/>
-            <Button Name="btnadd" Content="Add" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
-   FontSize="30" Command="{Binding Path=AddPilot}" CommandParameter="{Binding Entity}"/>
-            <Button Name="btnupdate" Content="Update" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
-   FontSize="30" Command="{Binding UpdatePilot}" CommandParameter="{Binding Entity}"/>
-            <Button Name="btndelete" Content="Delete" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
-   FontSize="30" Command="{Binding DeletePilot}" CommandParameter="{Binding Entity}"/>
+
+
+        <StackPanel   HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Orientation="Horizontal" Margin="10" Grid.Column="1" Width="400">
+            <Button Name="btnnew" Content="New" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100" Click="NewForm"
+   FontSize="18" Command="{Binding Path=NewEntity}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btnadd" Content="Add" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100"
+   FontSize="18" Command="{Binding Path=AddEntity}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btnupdate" Content="Update" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100"
+   FontSize="18" Command="{Binding UpdateEntity}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btndelete" Content="Delete" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="100"
+   FontSize="18" Command="{Binding DeleteEntity}" CommandParameter="{Binding Entity}"/>
         </StackPanel>
 
     </Grid>

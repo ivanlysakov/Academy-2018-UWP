@@ -74,6 +74,11 @@ namespace AirportClient
                 myFrame.Navigate(typeof(TicketsView));
                 TitleTextBlock.Text = "Tickets";
             }
+            else if (home.IsSelected)
+            {
+                myFrame.Navigate(typeof(HomePage));
+                TitleTextBlock.Text = "Home";
+            }
 
         }
 

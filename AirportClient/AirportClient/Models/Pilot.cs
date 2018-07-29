@@ -21,5 +21,10 @@ namespace AirportClient.Models
         public int Experience { get; set; }
 
         public int CrewID { get; set; }
+
+        public string FullName
+        {
+            get { return this.FirstName + " " + this.Lastname; }
+        }
     }
 }

@@ -15,17 +15,7 @@
     <Page.Resources>
         <vm:AirplaneViewModel x:Key="vmDs"></vm:AirplaneViewModel>
         <convertor:DateConverter x:Name="DateToStringConverter"/>
-        <!--<DataTemplate x:Key="airplaneTemplate">
-            <StackPanel Orientation="Horizontal" Width="600" HorizontalAlignment="Left">
-                <TextBlock Text="{Binding Id }" Width="100"></TextBlock>
-                <TextBlock Text="{Binding Name}" Width="100"></TextBlock>
-                <TextBlock Text="{Binding Type.Model}" Width="100"></TextBlock>
-                <TextBlock Text="{Binding CreationDate, Converter={StaticResource DateToStringConverter}}" Width="100"></TextBlock>
-                <TextBlock Text="{Binding Lifetime}" Width="100"></TextBlock>
-                <TextBlock Text="{Binding DepartureID}" Width="100"></TextBlock>
-            </StackPanel>
-        </DataTemplate>-->
-    </Page.Resources>
+     </Page.Resources>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DataContext="{Binding Source={StaticResource vmDs}}"
          x:Name="MainGrid" Padding="10,10,10,10" Margin="10,10,10,10">
@@ -86,7 +76,7 @@
 
 
 
-        <Grid x:Name="detailGrid" Visibility="Visible" Margin="24,109,45,-270"
+        <Grid x:Name="detailGrid" Visibility="Collapsed" Margin="24,109,45,-270"
             DataContext="{Binding Path=Entity,Mode=TwoWay}" Grid.Column="1" RenderTransformOrigin="0.513,0.513" VerticalAlignment="Stretch" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="20*"/>
