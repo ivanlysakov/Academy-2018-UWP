@@ -1,0 +1,84 @@
+﻿<Page
+    x:Class="AirportClient.Views.AircrewsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:AirportClient.ViewModels"
+    xmlns:local1="using:AirportClient.Infrastructure"
+    xmlns:converter="using:AirportClient.Convetors"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <vm:AircrewViewModel x:Key="vmDs"></vm:AircrewViewModel>
+
+        <converter:DateConverter x:Name="DateToStringConverter"/>
+        <DataTemplate x:Key="Template">
+            <StackPanel Orientation="Horizontal" Width="600">
+                <TextBlock Text="{Binding Id }" Width="100"></TextBlock>
+                <TextBlock Text="{Binding CrewNumber}" Width="100"></TextBlock>
+                <TextBlock Text="{Binding Pilot.FirstName}" Width="100"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DataContext="{Binding Source={StaticResource vmDs}}"
+         x:Name="MainGrid" Margin="32,36,30,31" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="383*"/>
+            <ColumnDefinition Width="546*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="464*"/>
+            <RowDefinition Height="549*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="detailGrid" Visibility="Visible" Margin="0,114,0,0"
+            DataContext="{Binding Path=Entity,Mode=TwoWay}" Grid.RowSpan="2" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Height="437" Width="681">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="74*"/>
+                <RowDefinition Height="72*"/>
+                <RowDefinition Height="71*"/>
+                <RowDefinition Height="69*"/>
+                <RowDefinition Height="70*"/>
+                <RowDefinition Height="67*"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="100*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock TextWrapping="Wrap" Text="Crew Id" FontFamily="Segor UI" FontSize="30"/>
+            <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Number" FontFamily="Segoe UI" FontSize="30"/>
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" Text="PilotName" FontFamily="Segoe UI" FontSize="30" />
+            
+
+            <TextBox x:Name="txtid" Grid.Column="1" TextWrapping="Wrap" Height="55"
+                FontSize="30" IsEnabled="False" Text="{Binding  Source={StaticResource vmDs},Path=EntityId}" Width="300"/>
+            <TextBox x:Name="txtnumber" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Height="55"
+                FontSize="30" Text="{Binding CrewNumber,Mode=TwoWay}" Width="300"/>
+            <TextBox x:Name="txtname" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap" Height="55"
+                FontSize="30" Text="{Binding Pilot.FirstName,Mode=TwoWay}" Width="300" HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"/>
+            </Grid>
+
+        <ListView x:Name="lstentities" Grid.Column="0"
+   Height="888" Margin="49,93,38,0" VerticalAlignment="Top" IsItemClickEnabled="True" ItemClick="SelectItem" 
+   ItemsSource="{Binding Collection}"
+   SelectedItem="{Binding Source={StaticResource vmDs},Path=SelectedEntity,Mode=TwoWay}"
+   ItemTemplate="{StaticResource Template}" Grid.RowSpan="2"/>
+
+        <StackPanel   HorizontalAlignment="Right" Height="96" VerticalAlignment="Top" Width="681" Orientation="Horizontal" Margin="0,0,0,0" Grid.Column="1">
+            <Button Name="btnnew" Content="New" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168" Click="NewForm"
+   FontSize="30" Command="{Binding Path=NewPilot}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btnadd" Content="Add" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
+   FontSize="30" Command="{Binding Path=AddPilot}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btnupdate" Content="Update" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
+   FontSize="30" Command="{Binding UpdatePilot}" CommandParameter="{Binding Entity}"/>
+            <Button Name="btndelete" Content="Delete" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="168"
+   FontSize="30" Command="{Binding DeletePilot}" CommandParameter="{Binding Entity}"/>
+        </StackPanel>
+
+    </Grid>
+
+</Page>
