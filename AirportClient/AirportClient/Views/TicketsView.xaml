@@ -13,6 +13,7 @@
     <Page.Resources>
         <vm:TicketViewModel x:Key="vmDs"></vm:TicketViewModel>
         <converter:DateConverter x:Name="DateToStringConverter"/>
+        <converter:IntConverter x:Name="StringToIntConverter"/>
     </Page.Resources>
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DataContext="{Binding Source={StaticResource vmDs}}"
@@ -85,7 +86,7 @@
             <TextBox x:Name="txtid" Grid.Column="1" TextWrapping="Wrap"
                 FontSize="14" IsEnabled="False" Text="{Binding  Source={StaticResource vmDs},Path=EntityId}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
             <TextBox x:Name="txtname" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
-                FontSize="14" Text="{Binding Price, Mode=TwoWay}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
+                FontSize="14" Text="{Binding Price, Converter={StaticResource StringToIntConverter}, Mode=TwoWay}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
             <TextBox x:Name="txtlname" Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"
                 FontSize="14" Text="{Binding FlightNumber, Mode=TwoWay}" HorizontalAlignment="Left" Width="200" VerticalAlignment="Center"/>
        

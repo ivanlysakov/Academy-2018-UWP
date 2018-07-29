@@ -95,7 +95,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Convetors\DateConvertor.cs" />
+    <Compile Include="Convetors\DateConverter.cs" />
+    <Compile Include="Convetors\IntConverter.cs" />
     <Compile Include="Infrastructure\RoutedCommand.cs" />
     <Compile Include="Infrastructure\VisabilityConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
