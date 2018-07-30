@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Data;
 
 namespace AirportClient.Convetors
 {
-    public class IntConverter : IValueConverter
+    public class PriceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {

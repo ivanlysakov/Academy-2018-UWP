@@ -62,7 +62,7 @@ namespace AirportClient
             else if (departures.IsSelected)
             {
                 myFrame.Navigate(typeof(DeparturesView));
-                TitleTextBlock.Text = "Deparures";
+                TitleTextBlock.Text = "Departures";
             }
             else if (flights.IsSelected)
             {

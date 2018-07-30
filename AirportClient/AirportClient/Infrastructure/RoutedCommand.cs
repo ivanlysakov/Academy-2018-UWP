@@ -22,6 +22,7 @@ namespace AirportClient.Infrastructure
              _canHandleExecution.Invoke(parameter);
         }
         public event EventHandler CanExecuteChanged;
+
         public void Execute(object parameter)
         {
             _handlerExecution.Invoke(parameter);

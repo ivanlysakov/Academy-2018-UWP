@@ -66,7 +66,7 @@ namespace AirportClient.Services
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
                 
