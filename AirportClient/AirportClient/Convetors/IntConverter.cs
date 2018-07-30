@@ -11,14 +11,18 @@ namespace AirportClient.Convetors
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            if ((decimal)value == 0)
+            {
+                return String.Empty;
+            }
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            int data;
+            decimal data;
 
-            if (string.IsNullOrEmpty((string)value) || !int.TryParse((string)value, out data))
+            if (string.IsNullOrEmpty((string)value) || !decimal.TryParse((string)value, out data))
             {
                 return null;
             }

@@ -24,9 +24,8 @@ namespace AirportClient.Services
             {
                 using (var client = new HttpClient())
                 {
-                    var content = client.GetStringAsync($"{remoteURL}").Result;
-                    return JsonConvert.DeserializeObject<List<TEntity>>(content);
-
+                  var content = client.GetStringAsync($"{remoteURL}").Result;
+                  return JsonConvert.DeserializeObject<List<TEntity>>(content);
                 }
             }
             catch (Exception)
