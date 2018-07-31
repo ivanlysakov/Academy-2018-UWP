@@ -83,14 +83,14 @@ namespace AirportClient.ViewModels
             Entity = new Airplane();
         }
 
-        void Load()
+        async void Load()
         {
-            Collection = new ObservableCollection<Airplane>(Service.Load());
+            Collection = new ObservableCollection<Airplane>(await Service.Load());
         }
 
         async void Delete(object o)
         {
-            await Service.delete(Entity.Id);
+            await Service.Delete(Entity.Id);
             Entity = new Airplane();
             Load();
         }

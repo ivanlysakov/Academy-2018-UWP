@@ -14,36 +14,26 @@ namespace AirportClient.Services
 {
     public abstract class BaseService<TEntity> where TEntity : class, IModel
     {
-
         public string remoteURL;
-               
-        public List<TEntity> Load()
-        {
 
+        public async Task<List<TEntity>> Load()
+        {
             try
             {
                 using (var client = new HttpClient())
                 {
-                  var content = client.GetStringAsync($"{remoteURL}").Result;
-                  return JsonConvert.DeserializeObject<List<TEntity>>(content);
+                    var content = await client.GetStringAsync($"{remoteURL}");
+                    return JsonConvert.DeserializeObject<List<TEntity>>(content);
                 }
             }
             catch (Exception)
             {
+                
+             throw new ArgumentNullException();
 
-                return new List<TEntity>();
-              
             }
-          
-
         }
-
-
-       
-
-
-
-
+ 
         public async Task Create(TEntity entity)
         {
             try
@@ -69,14 +59,12 @@ namespace AirportClient.Services
             catch (Exception)
             {
 
-                
+
             }
-          
+
 
         }
-
-
-
+        
         public async Task Update(TEntity entity)
         {
             try
@@ -98,15 +86,14 @@ namespace AirportClient.Services
             catch (Exception)
             {
 
-                
+
             }
 
 
 
         }
 
-
-        public async Task delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
@@ -124,10 +111,6 @@ namespace AirportClient.Services
 
 
         }
-
-
-
-
-
+                
     }
 }
