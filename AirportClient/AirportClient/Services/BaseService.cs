@@ -22,7 +22,7 @@ namespace AirportClient.Services
             {
                 using (var client = new HttpClient())
                 {
-                    var content = await client.GetStringAsync($"{remoteURL}");
+                    var content = await client.GetStringAsync($"{remoteURL}").ConfigureAwait(false);
                     return JsonConvert.DeserializeObject<List<TEntity>>(content);
                 }
             }
@@ -47,7 +47,7 @@ namespace AirportClient.Services
                         memStream.Position = 0;
                         var contentToPost = new StreamContent(memStream);
                         contentToPost.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-                        var response = await client.PostAsync(new Uri(remoteURL), contentToPost);
+                        var response = await client.PostAsync(new Uri(remoteURL), contentToPost).ConfigureAwait(false);
                         var dataReceived = response.EnsureSuccessStatusCode();
                         var dRec = new DataContractJsonSerializer(typeof(TEntity));
                         var str = await dataReceived.Content.ReadAsStreamAsync();
@@ -78,7 +78,7 @@ namespace AirportClient.Services
                         memStream.Position = 0;
                         var contentToPost = new StreamContent(memStream);
                         contentToPost.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-                        var response = await client.PutAsync(new Uri(remoteURL + "/" + entity.Id), contentToPost);
+                        var response = await client.PutAsync(new Uri(remoteURL + "/" + entity.Id), contentToPost).ConfigureAwait(false);
 
                     }
                 }
@@ -99,7 +99,7 @@ namespace AirportClient.Services
             {
                 using (var client = new HttpClient())
                 {
-                    var response = await client.DeleteAsync(new Uri(remoteURL + "/" + id));
+                    var response = await client.DeleteAsync(new Uri(remoteURL + "/" + id)).ConfigureAwait(false);
                     response.EnsureSuccessStatusCode();
                 }
             }
